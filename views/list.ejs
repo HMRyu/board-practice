@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="/main.css" rel="stylesheet">
 </head>
+
 <body class="grey-bg">
 
-    <%= JSON.stringify(result) %>
+        <div class="white-bg">
 
-    
-    <div class="white-bg">
-        <% for (let i = 0; i < result.length; i++) { %>
-            <div class="list-box">
-                <a href="/detail/<%= result[i]._id %>">
-                    <h4><%= result[i].title %></h4>
-                </a>
-                <p><%= result[i].content %></p>
-                <a href="/edit/<%= result[i]._id %>">
-                    <button>글수정</button>
-                </a>
+            <% for (let i=0; i < result.length; i++) { %>
+                <div class="list-box">
+                    <a href="/detail/<%=result[i]._id%>">
+                        <h4>
+                            <%= result[i].title %>
+                        </h4>
+                    </a>
+                    <p>
+                        <%= result[i].content %>
+                    </p>
+                    <a href="/edit/<%=result[i]._id%>">
+                        <button>글수정</button>
+                    </a>
+                    <button class="delete" data-id="<%=result[i]._id%>">글삭제</button>
+                </div>
+            <% } %>
 
-                <button class="delete" data-id="<%= result[i]._id %>">글삭제</button>
-            </div>
-        <% } %>
-    </div> 
-    
-    <script>
-        for (let i = 0; i < "<%= result.length %>"; i++) {
-            document.querySelectorAll('.delete')[i].addEventListener('click', (e) => {
-            fetch('/delete?docid=' + e.target.dataset.id, {
-                method : "DELETE"
-            }).then((r) => r.text())
-            .then((r) => {
-                e.target.parentElement.style.display='none'
+        </div>
+
+        <script>
+            for (let i = 0; i < "<%= result.length %>"; i++) {
+                document.querySelectorAll('.delete')[i].addEventListener('click', (e) => {
+                fetch('/delete?docid=' + e.target.dataset.id, {
+                    method: 'DELETE'
+                }).then((r) => r.text())
+                .then((r) => {
+                    e.target.parentElement.style.display = 'none'
+                })
             })
-        })
-        }
-    </script>
+            }
+            
+        </script>
 
-  </body>
+</body>
+
 </html>

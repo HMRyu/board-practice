@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="/main.css" rel="stylesheet">
 </head>
-<body class="grey-bg">
 
-    <div class="white-bg">
-        <form class="form-box" action="/edit" method="POST">
-            <h4>글수정</h4>
-            <input name="title" value="<%= result.title %>">
-            <input name="content" value="<%= result.content %>">
-            <input style="display: none;"  name="id" value="<%= result._id %>">
-            <button type="submit">수정하기</button>
-        </form> 
-    </div> 
-  
-  </body>
+<body class="grey-bg">
+    
+        <div class="white-bg">
+
+            <form class="form-box" action="/edit" method="POST">
+                <h4>글수정</h4>
+                <input name="title" value="<%= result.title %>">
+                <input name="content" value="<%= result.content %>">
+                <input style="display: none;" name="id" value="<%= result._id %>">
+                <button type="submit">수정하기</button>
+            </form> 
+
+        </div>
+
+</body>
+
 </html>

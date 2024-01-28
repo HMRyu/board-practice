@@ -1,5 +1,16 @@
 const express = require('express')
 const app = express()
+
+app.set('view engine', 'ejs') 
+
+app.use(express.static(__dirname + '/public'))
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
+app.listen(8080, () => {
+    console.log('http://localhost:8080 에서 서버 실행중')
+})
+
 const { MongoClient, ObjectId } = require('mongodb')
 
 let db
@@ -9,16 +20,6 @@ new MongoClient(url).connect().then((client)=>{
   db = client.db('board')
 }).catch((err)=>{
   console.log(err)
-})
-
-app.set('view engine', 'ejs') 
-
-app.use(express.static(__dirname + '/public'))
-app.use(express.json())
-app.use(express.urlencoded({extended:true})) 
-
-app.listen(8080, () => {
-    console.log('http://localhost:8080 에서 서버 실행중')
 })
 
 app.get('/', (req, res) => {
@@ -33,13 +34,11 @@ app.get('/list', async (req, res) => {
 })
 
 app.get('/detail/:id', async (req, res) => {
-
     let result = await db.collection('post').findOne({
         _id : new ObjectId(req.params.id)
     })
 
     res.render('detail.ejs', {result : result})
-
 })
 
 app.get('/write', async (req, res) => {
@@ -47,8 +46,6 @@ app.get('/write', async (req, res) => {
 })
 
 app.post('/add', async (req, res) => {
-
-    //console.log(req.body)
     await db.collection('post').insertOne({
         title : req.body.title,
         content : req.body.content
@@ -58,30 +55,33 @@ app.post('/add', async (req, res) => {
 })
 
 app.get('/edit/:id', async (req, res) => {
+    //console.log(req.params.id)
 
-    //console.log(req.params)
-
-    let result = await db.collection('post').findOne({_id : new ObjectId(req.params.id)})
+    let result = await db.collection('post').findOne({
+        _id : new ObjectId(req.params.id) 
+    })
 
     res.render('edit.ejs', {result : result})
 })
 
 app.post('/edit', async (req, res) => {
+    //console.log(req.body)
     await db.collection('post').updateOne({
         _id : new ObjectId(req.body.id)
     }, {$set : {
         title : req.body.title,
         content : req.body.content
-    }})
+    }
+    })
 
     res.redirect('/list')
 })
 
 app.delete('/delete', async (req, res) => {
-    //console.log(req.query)
+    //console.log(req.query.docid)
     await db.collection('post').deleteOne({
         _id : new ObjectId(req.query.docid)
     })
 
-    res.send('삭제완료')
+    res.send('delete')
 })
