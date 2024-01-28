@@ -1,0 +1,1 @@
+1. detail.ejs에서 지금은 a 태그를 써서만 data를 전송하고 있는데 ajax 요청을 해서 data를 전송
